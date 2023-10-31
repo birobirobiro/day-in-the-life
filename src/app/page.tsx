@@ -12,7 +12,6 @@ import YoutubeBR from "./api/youtubeBR";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import {
-  Key,
   ReactElement,
   JSXElementConstructor,
   ReactNode,
@@ -76,7 +75,7 @@ export default async function Home() {
               }) => (
                 <Card key={video.id?.videoId}>
                   <CardHeader>
-                    <CardTitle className="leading-relaxed">
+                    <CardTitle className="leading-relaxed truncate">
                       {video.snippet.title}
                     </CardTitle>
                   </CardHeader>
@@ -159,7 +158,7 @@ export default async function Home() {
               }) => (
                 <Card key={video.id?.videoId}>
                   <CardHeader>
-                    <CardTitle className="leading-relaxed">
+                    <CardTitle className="leading-relaxed truncate">
                       {video.snippet.title}
                     </CardTitle>
                   </CardHeader>
