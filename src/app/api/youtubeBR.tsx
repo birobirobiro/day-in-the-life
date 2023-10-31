@@ -8,6 +8,7 @@ export default async function YoutubeBR() {
   );
 
   if (!fetchVideos.ok) {
+    console.log(fetchVideos);
     throw new Error(fetchVideos.statusText);
   }
 
