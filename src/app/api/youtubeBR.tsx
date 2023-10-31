@@ -1,6 +1,6 @@
 export default async function YoutubeBR() {
   const apiKey = process.env.YOUTUBE_API_KEY;
-  const maxResults = 20;
+  const maxResults = 18;
   const searchQuery = "rotina programador";
 
   const fetchVideos = await fetch(

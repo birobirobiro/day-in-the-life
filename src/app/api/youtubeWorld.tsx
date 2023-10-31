@@ -1,6 +1,6 @@
 export default async function YoutubeWorld() {
   const apiKey = process.env.YOUTUBE_API_KEY;
-  const maxResults = 20;
+  const maxResults = 18;
   const searchQuery = "day in the life of a software engineer";
 
   const fetchVideos = await fetch(
