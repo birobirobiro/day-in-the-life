@@ -4,7 +4,7 @@ export default async function YoutubeShortsWorld() {
   const searchQuery = "day in the life of a software engineer";
 
   const fetchVideos = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&key=${apiKey}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&key=${apiKey}`
   );
 
   if (!fetchVideos.ok) {

@@ -4,7 +4,7 @@ export default async function YoutubeShortsBR() {
   const searchQuery = "rotina programador";
 
   const fetchVideos = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&key=${apiKey}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&key=${apiKey}`
   );
 
   if (!fetchVideos.ok) {
