@@ -10,8 +10,7 @@ const nextConfig = {
         pathname: '/**'
       }
     ]
-  },
-  trailingSlash: true
+  }
 }
 
 module.exports = nextConfig
