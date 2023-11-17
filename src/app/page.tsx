@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="w-full flex flex-col p-10 gap-10 justify-center items-center">
+    <main className="lg:max-w-[1440px] mx-auto w-full flex flex-col p-10 gap-10 justify-center items-center">
       <h1 className="text-3xl font-bold text-center ">
         A Day in the Life of a Software Engineer
       </h1>
