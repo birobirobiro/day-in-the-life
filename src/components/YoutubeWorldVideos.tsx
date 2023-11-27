@@ -75,8 +75,10 @@ export default async function VideosWorld() {
               ></iframe>
 
               <div className="flex gap-2 pt-4">
-                <Badge variant="secondary">{video.snippet.channelTitle}</Badge>
-                <Badge variant="secondary">
+                <Badge variant="secondary" className="text-center">
+                  {video.snippet.channelTitle}
+                </Badge>
+                <Badge variant="secondary" className="text-center">
                   {new Date(video.snippet.publishTime).toLocaleDateString(
                     "pt-BR",
                     {
