@@ -13,13 +13,13 @@ export default function Home() {
       </h1>
       <Tabs defaultValue="videosBR">
         <TabsList>
-          <TabsTrigger value="videosBR">Vídeos no Brasil</TabsTrigger>
-          <TabsTrigger value="videosWorld">Vídeos em todo o Mundo</TabsTrigger>
+          <TabsTrigger value="videosBR">Videos in Brazil</TabsTrigger>
+          <TabsTrigger value="videosWorld">Videos around the World</TabsTrigger>
           <TabsTrigger value="videosShortsBR">
-            Youtube Shorts no Brasil
+            YouTube Shorts in Brazil
           </TabsTrigger>
           <TabsTrigger value="videosShortsWorld">
-            Youtube Shorts em todo o Mundo
+            YouTube Shorts around the World
           </TabsTrigger>
         </TabsList>
 
