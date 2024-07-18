@@ -1,10 +1,10 @@
-export default async function YoutubeShortsBR() {
+export default async function YoutubeShortsBR(pageToken = '') {
   const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const maxResults = 20;
   const searchQuery = "rotina programador";
 
   const fetchVideos = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&key=${apiKey}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${searchQuery}&order=date&type=video&videoDuration=short&pageToken=${pageToken}&key=${apiKey}`
   );
 
   if (!fetchVideos.ok) {

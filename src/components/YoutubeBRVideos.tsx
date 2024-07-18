@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   ReactElement,
   JSXElementConstructor,
@@ -17,8 +17,17 @@ import {
   PromiseLikeOfReactNode,
   useEffect,
   useState,
-} from 'react';
-import YoutubeBR from '@/app/api/youtubeBR';
+} from "react";
+import YoutubeBR from "@/app/api/youtubeBR";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 type Video = {
   id: { videoId: string } | null | undefined;
@@ -59,26 +68,46 @@ type Video = {
 
 type VideoResponse = {
   items: Video[];
+  nextPageToken?: string;
+  prevPageToken?: string;
 };
 
 export default function VideosBR() {
   const [brVideos, setBrVideos] = useState<VideoResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [currentPageToken, setCurrentPageToken] = useState("");
+  const [prevPageToken, setPrevPageToken] = useState("");
+
+  const fetchBRVideos = async (pageToken = "") => {
+    try {
+      const data: VideoResponse = await YoutubeBR(pageToken);
+      setBrVideos(data);
+      setCurrentPageToken(data.nextPageToken || "");
+      setPrevPageToken(data.prevPageToken || "");
+    } catch (error) {
+      console.error("Failed to fetch videos", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const data: VideoResponse = await YoutubeBR();
-        setBrVideos(data);
-      } catch (error) {
-        console.error('Failed to fetch videos', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVideos();
+    fetchBRVideos();
   }, []);
+
+  const handleNextPage = () => {
+    if (currentPageToken) {
+      setLoading(true);
+      fetchBRVideos(currentPageToken);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (prevPageToken) {
+      setLoading(true);
+      fetchBRVideos(prevPageToken);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -89,48 +118,61 @@ export default function VideosBR() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xl:grid-cols-4">
-      {brVideos.items.map((video) => (
-        <Card key={video.id?.videoId}>
-          <CardHeader>
-            <CardTitle className="leading-relaxed truncate">
-              {video.snippet.title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <iframe
-              className="w-full rounded-lg"
-              height="315"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              src={`https://www.youtube.com/embed/${video.id?.videoId}`}
-            ></iframe>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {brVideos.items.map((video) => (
+          <Card key={video.id?.videoId}>
+            <CardHeader>
+              <CardTitle className="leading-relaxed truncate">
+                {video.snippet.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <iframe
+                className="w-full rounded-lg"
+                height="315"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                src={`https://www.youtube.com/embed/${video.id?.videoId}`}
+              ></iframe>
 
-            <div className="flex gap-2 pt-4">
-              <Badge variant="secondary" className="text-center">
-                {video.snippet.channelTitle}
-              </Badge>
-              <Badge variant="secondary" className="text-center">
-                {new Date(video.snippet.publishTime).toLocaleDateString(
-                  'pt-BR',
-                  {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }
-                )}
-              </Badge>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <CardDescription className="flex flex-col gap-2 mb-2">
-              <span className="leading-relaxed">
-                {video.snippet.description}
-              </span>
-            </CardDescription>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+              <div className="flex gap-2 pt-4">
+                <Badge variant="secondary" className="text-center">
+                  {video.snippet.channelTitle}
+                </Badge>
+                <Badge variant="secondary" className="text-center">
+                  {new Date(video.snippet.publishTime).toLocaleDateString(
+                    "pt-BR",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
+                </Badge>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <CardDescription className="flex flex-col gap-2 mb-2">
+                <span className="leading-relaxed">
+                  {video.snippet.description}
+                </span>
+              </CardDescription>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+      <Pagination className="mt-4">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" onClick={handlePreviousPage} />
+          </PaginationItem>
+          {/* You can add more PaginationLink items here if needed */}
+          <PaginationItem>
+            <PaginationNext href="#" onClick={handleNextPage} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   );
 }
