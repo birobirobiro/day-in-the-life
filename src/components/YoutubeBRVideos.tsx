@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Card,
   CardContent,
@@ -13,18 +15,43 @@ import {
   ReactNode,
   ReactPortal,
   PromiseLikeOfReactNode,
+  useEffect,
+  useState,
 } from "react";
 import YoutubeBR from "@/app/api/youtubeBR";
 
-export default async function VideosBR() {
-  const brVideos = await YoutubeBR();
+export default function VideosBR() {
+  const [brVideos, setBrVideos] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const data = await YoutubeBR();
+        setBrVideos(data);
+      } catch (error) {
+        console.error("Failed to fetch videos", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!brVideos) {
+    return <div>No videos found</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xl:grid-cols-4">
       {brVideos.items.map(
         (video: {
           id: { videoId: string } | null | undefined;
-
           snippet: {
             title:
               | string

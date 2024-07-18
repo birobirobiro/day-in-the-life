@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -13,18 +15,43 @@ import {
   ReactNode,
   ReactPortal,
   PromiseLikeOfReactNode,
+  useEffect,
+  useState,
 } from "react";
 import YoutubeShortsWorld from "@/app/api/youtubeShortsWorld";
 
-export default async function VideosShortsWorld() {
-  const shortVideosWorld = await YoutubeShortsWorld();
+export default function VideosShortsWorld() {
+  const [shortVideosWorld, setShortVideosWorld] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchShortVideos = async () => {
+      try {
+        const data = await YoutubeShortsWorld();
+        setShortVideosWorld(data);
+      } catch (error) {
+        console.error("Failed to fetch short videos", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShortVideos();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!shortVideosWorld) {
+    return <div>No short videos found</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {shortVideosWorld.items.map(
         (video: {
           id: { videoId: string } | null | undefined;
-
           snippet: {
             title:
               | string

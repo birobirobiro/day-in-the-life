@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -13,18 +15,43 @@ import {
   ReactNode,
   ReactPortal,
   PromiseLikeOfReactNode,
+  useEffect,
+  useState,
 } from "react";
 import YoutubeWorld from "@/app/api/youtubeWorld";
 
-export default async function VideosWorld() {
-  const worldVideos = await YoutubeWorld();
+export default function VideosWorld() {
+  const [worldVideos, setWorldVideos] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWorldVideos = async () => {
+      try {
+        const data = await YoutubeWorld();
+        setWorldVideos(data);
+      } catch (error) {
+        console.error("Failed to fetch world videos", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorldVideos();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!worldVideos) {
+    return <div>No world videos found</div>;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {worldVideos.items.map(
         (video: {
           id: { videoId: string } | null | undefined;
-
           snippet: {
             title:
               | string
