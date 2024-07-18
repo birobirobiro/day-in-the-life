@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Card,
@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   ReactElement,
   JSXElementConstructor,
@@ -17,8 +17,8 @@ import {
   PromiseLikeOfReactNode,
   useEffect,
   useState,
-} from "react";
-import YoutubeBR from "@/app/api/youtubeBR";
+} from 'react';
+import YoutubeBR from '@/app/api/youtubeBR';
 
 type Video = {
   id: { videoId: string } | null | undefined;
@@ -71,7 +71,7 @@ export default function VideosBR() {
         const data: VideoResponse = await YoutubeBR();
         setBrVideos(data);
       } catch (error) {
-        console.error("Failed to fetch videos", error);
+        console.error('Failed to fetch videos', error);
       } finally {
         setLoading(false);
       }
@@ -112,11 +112,11 @@ export default function VideosBR() {
               </Badge>
               <Badge variant="secondary" className="text-center">
                 {new Date(video.snippet.publishTime).toLocaleDateString(
-                  "pt-BR",
+                  'pt-BR',
                   {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
                   }
                 )}
               </Badge>

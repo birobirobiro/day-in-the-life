@@ -1,5 +1,5 @@
 export default async function YoutubeBR() {
-  const apiKey = process.env.YOUTUBE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const maxResults = 18;
   const searchQuery = "rotina programador";
 

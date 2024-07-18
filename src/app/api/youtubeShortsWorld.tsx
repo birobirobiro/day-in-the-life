@@ -1,5 +1,5 @@
 export default async function YoutubeShortsWorld() {
-  const apiKey = process.env.YOUTUBE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const maxResults = 20;
   const searchQuery = "in the Life of a Software Engineer";
 
