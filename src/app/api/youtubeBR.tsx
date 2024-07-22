@@ -4,7 +4,7 @@ export default async function YoutubeBR(pageToken = '') {
   const searchQuery = "um dia na vida de um programador|rotina de programador";
 
   const fetchVideos = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${encodeURIComponent(searchQuery)}&order=date&type=video&videoDuration=medium&pageToken=${pageToken}&key=${apiKey}`
+    `https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&maxResults=${maxResults}&q=${encodeURIComponent(searchQuery)}&order=date&type=video&videoDuration=medium&pageToken=${pageToken}&key=${apiKey}&relevanceLanguage=pt`
   );
 
   if (!fetchVideos.ok) {
